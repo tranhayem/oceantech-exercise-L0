@@ -22,6 +22,10 @@ div {
   border: 2px solid;
 }
 
+.float-right {
+  float: right;
+}
+
 .a1 {
   position: relative;
   width: var(--width-a1);
@@ -64,6 +68,7 @@ div {
 
 .a6 {
   position: absolute;
+  z-index: 10;
   top: calc((var(--height-a4) - var(--height-a6)) / 2);
   left: calc((var(--width-a4) - var(--width-a6)) / 2);
   width: var(--width-a6);
