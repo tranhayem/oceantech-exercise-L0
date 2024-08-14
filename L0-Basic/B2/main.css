@@ -11,9 +11,9 @@
 li,
 span {
   display: block;
+  width: 40px;
+  height: 40px;
   margin: 20px;
-  width: 80vw;
-  height: 50px;
   text-align: center;
 }
 
