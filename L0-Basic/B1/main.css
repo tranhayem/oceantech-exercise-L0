@@ -1,10 +1,16 @@
 :root {
   --width-a1: 1000px;
   --height-a1: 2000px;
+  --width-a2: calc(var(--width-a1) / 2);
   --height-a2: 100px;
+  --width-a3: calc(var(--width-a1) / 2);
   --height-a3: 200px;
   --width-a4: calc(var(--width-a1) - 100px);
   --height-a4: calc(100vh - var(--height-a2) - var(--height-a3) - 8px);
+  --width-a5: calc(var(--width-a1) - 400px);
+  --height-a5: calc(var(--height-a4) / 2);
+  --width-a6: 150px;
+  --height-a6: 100px;
 }
 
 body {
@@ -26,7 +32,7 @@ div {
 .a2 {
   position: fixed;
   top: 0;
-  width: calc(var(--width-a1) / 2);
+  width: var(--width-a2);
   height: var(--height-a2);
   border-color: brown;
 }
@@ -34,7 +40,7 @@ div {
 .a3 {
   position: fixed;
   bottom: 0;
-  width: calc(var(--width-a1) / 2);
+  width: var(--width-a3);
   height: var(--height-a3);
   border-color: orange;
 }
@@ -43,25 +49,25 @@ div {
   position: relative;
   width: var(--width-a4);
   height: var(--height-a4);
-  margin-top: var(--height-a2);
+  top: var(--height-a2);
   border-color: blue;
 }
 
 .a5 {
   position: sticky;
-  top: 33vh;
+  top: calc((100vh - var(--height-a5)) / 2);
   left: 200px;
-  width: calc(var(--width-a1) / 2);
-  height: calc(var(--height-a4) / 2);
+  width: var(--width-a5);
+  height: var(--height-a5);
   border-color: violet;
 }
 
 .a6 {
   position: absolute;
-  top: calc(50% - 100px);
-  left: calc(50% - 100px);
-  width: 200px;
-  height: 200px;
+  top: calc((var(--height-a4) - var(--height-a6)) / 2);
+  left: calc((var(--width-a4) - var(--width-a6)) / 2);
+  width: var(--width-a6);
+  height: var(--height-a6);
   border-color: yellow;
 }
 
