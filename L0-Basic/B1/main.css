@@ -1,0 +1,72 @@
+:root {
+  --width-a1: 1000px;
+  --height-a1: 2000px;
+  --height-a2: 100px;
+  --height-a3: 200px;
+  --width-a4: calc(var(--width-a1) - 100px);
+  --height-a4: calc(100vh - var(--height-a2) - var(--height-a3) - 8px);
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+div {
+  border: 2px solid;
+}
+
+.a1 {
+  position: relative;
+  width: var(--width-a1);
+  height: var(--height-a1);
+  border-color: red;
+}
+
+.a2 {
+  position: fixed;
+  top: 0;
+  width: calc(var(--width-a1) / 2);
+  height: var(--height-a2);
+  border-color: brown;
+}
+
+.a3 {
+  position: fixed;
+  bottom: 0;
+  width: calc(var(--width-a1) / 2);
+  height: var(--height-a3);
+  border-color: orange;
+}
+
+.a4 {
+  position: relative;
+  width: var(--width-a4);
+  height: var(--height-a4);
+  margin-top: var(--height-a2);
+  border-color: blue;
+}
+
+.a5 {
+  position: sticky;
+  top: 33vh;
+  left: 200px;
+  width: calc(var(--width-a1) / 2);
+  height: calc(var(--height-a4) / 2);
+  border-color: violet;
+}
+
+.a6 {
+  position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 100px);
+  width: 200px;
+  height: 200px;
+  border-color: yellow;
+}
+
+@media only screen and (max-width: 780px) {
+  :root {
+    --width-a1: 500px;
+  }
+}
