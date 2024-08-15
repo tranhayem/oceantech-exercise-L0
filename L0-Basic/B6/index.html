@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./main.css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <button id="login-button">Đăng nhập hệ thống</button>
+
+    <div id="login-modal" class="login-modal">
+      <div class="modal-content">
+        <span id="close-modal">&times;</span>
+
+        <div class="login-title">Member Login</div>
+
+        <form id="login-form">
+          <div class="input-group">
+            <i class="fa fa-user input-icon"></i>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+            />
+          </div>
+          <p class="error-message" id="username-error"></p>
+
+          <div class="input-group">
+            <i class="fa fa-lock input-icon"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+            />
+          </div>
+          <p class="error-message" id="password-error"></p>
+
+          <button type="button" id="submit-button">Login</button>
+        </form>
+
+        <div class="forgot-password">
+          <p>Forgot Password?</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
