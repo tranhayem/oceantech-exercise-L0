@@ -2,8 +2,8 @@ const loginButton = document.getElementById("login-button");
 const loginModal = document.getElementById("login-modal");
 const closeModal = document.getElementById("close-modal");
 const submitButton = document.getElementById("submit-button");
-const username = document.getElementById("username");
-const password = document.getElementById("password");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
 const usernameError = document.getElementById("username-error");
 const passwordError = document.getElementById("password-error");
 
@@ -23,24 +23,21 @@ closeModal.addEventListener("click", function () {
 });
 
 submitButton.addEventListener("click", function () {
-  var usernameInput = username.value;
-  var passwordInput = password.value;
+  var username = usernameInput.value;
+  var password = passwordInput.value;
 
   usernameError.textContent = "";
   passwordError.textContent = "";
 
-  if (!usernameInput || !passwordInput) {
-    usernameError.textContent = !usernameInput
+  if (!username || !password) {
+    usernameError.textContent = !username
       ? "Vui lòng nhập đầy đủ thông tin"
       : "";
 
-    passwordError.textContent = !passwordInput
+    passwordError.textContent = !password
       ? "Vui lòng nhập đầy đủ thông tin"
       : "";
-  } else if (
-    usernameInput !== user.username ||
-    passwordInput !== user.password
-  ) {
+  } else if (username !== user.username || password !== user.password) {
     passwordError.textContent = "Tài khoản hoặc mật khẩu không đúng";
   } else {
     resetForm();
@@ -50,8 +47,8 @@ submitButton.addEventListener("click", function () {
 });
 
 function resetForm() {
-  username.value = "";
-  password.value = "";
+  usernameInput.value = "";
+  passwordInput.value = "";
 
   usernameError.textContent = "";
   passwordError.textContent = "";
