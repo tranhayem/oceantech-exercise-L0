@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.login-modal {
+  display: none;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  background-color: #808080;
+}
+
+.modal-content {
+  width: 320px;
+  position: relative;
+}
+
+#close-modal,
+#close-forgot-password-modal {
+  font-size: 24px;
+  cursor: pointer;
+  color: #cbcbcb;
+}
+
+.login-title {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  padding: 0 32px 24px;
+}
+
+input {
+  outline: none !important;
+}
+
+.error-message {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.success-message {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.btn-block {
+  margin-top: 16px;
+}
+
+.forgot-password {
+  background-color: #ecf0f1;
+  border-radius: 0 0 10px 10px;
+}
+
+.forgot-password p:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
