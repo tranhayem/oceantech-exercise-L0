@@ -1,0 +1,51 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.offer-section {
+  position: relative;
+  background-image: url("../images/bai2.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 300px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.offer-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.offer-heading {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.offer-subheading {
+  font-size: 1.2rem;
+  margin: 20px 0 40px;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
