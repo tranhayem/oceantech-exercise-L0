@@ -1,0 +1,51 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-transform: uppercase;
+}
+
+.yellow-line {
+  width: 16%;
+  height: 4px;
+  background-color: #ffbd48;
+}
+
+.list-unstyled li {
+  font-size: 1rem;
+}
+
+.list-unstyled i {
+  font-size: 1.2rem;
+}
+
+.form-control {
+  font-size: 1rem;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+.btn-info {
+  background-color: #0cb8b6;
+  border: none;
+  border-radius: 0px;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+}
