@@ -1,0 +1,43 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment {
+  background-color: #f9f9f9;
+}
+
+.comment p {
+  margin-bottom: 10px;
+}
+
+.text-success {
+  color: #a7bb1a !important;
+}
+
+.user-icon {
+  background-color: #fff;
+  border: 1px solid #e7e7e7;
+  padding: 8px;
+}
+
+@media (max-width: 768px) {
+  .comment .col-md-2 {
+    text-align: left;
+    margin-top: 15px;
+  }
+}
