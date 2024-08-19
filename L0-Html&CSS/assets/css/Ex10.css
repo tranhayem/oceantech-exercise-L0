@@ -1,0 +1,47 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 20px;
+}
+.content-box {
+  display: flex;
+  align-items: center;
+}
+
+.icon-box {
+  min-width: 60px;
+  height: 60px;
+  color: #ffffff;
+  font-size: 2rem;
+  background-color: #dda0dd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-right: 20px;
+}
+
+.icon-box h1 {
+  margin: 0;
+}
+
+.title-content {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.description {
+  margin: 5px 0 0;
+  font-size: 1rem;
+}
+
+.separator {
+  width: 100%;
+  border-bottom: 2px dashed #ff6347;
+  margin: 20px 0;
+}
