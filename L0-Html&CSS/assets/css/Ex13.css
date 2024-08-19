@@ -1,0 +1,58 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  background-color: #f6f6f6;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title-content {
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: bold;
+  position: relative;
+}
+
+.title-content:after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background-color: #5b87fd;
+  margin: 10px auto 0;
+}
+
+.testimonial-box {
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.client-avatar {
+  background-color: #93dea4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px 16px;
+}
+
+.client-quote {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.client-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0;
+}
