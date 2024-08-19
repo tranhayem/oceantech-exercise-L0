@@ -36,10 +36,6 @@ body {
   margin-bottom: 15px;
 }
 
-textarea.form-control {
-  resize: none;
-}
-
 .btn-info {
   background-color: #0cb8b6;
   border: none;
