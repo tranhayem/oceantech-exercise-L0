@@ -20,10 +20,6 @@ body {
   padding: 10px;
 }
 
-textarea.form-control {
-  resize: none;
-}
-
 .btn-primary {
   min-width: 140px;
   background-color: #5bc0de;
