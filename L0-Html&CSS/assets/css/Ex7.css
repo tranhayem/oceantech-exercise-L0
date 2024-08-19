@@ -1,0 +1,29 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.btn {
+  border-radius: 16px;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background-color: #75bee1;
+  border-color: #75bee1;
+}
+
+.btn-success {
+  background-color: #95d075;
+  border-color: #95d075;
+}
+
+.image-wrap {
+  text-align: center;
+}
