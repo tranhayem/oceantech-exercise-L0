@@ -28,13 +28,30 @@ const user = {
 function resetLoginForm() {
   usernameInput.value = "";
   passwordInput.value = "";
+
   usernameError.textContent = "";
   passwordError.textContent = "";
   passwordSuccessMessage.textContent = "";
+
+  submitButton.innerHTML = "Login";
+}
+
+function resetForgotPasswordForm() {
+  oldPasswordInput.value = "";
+  newPasswordInput.value = "";
+
+  oldPasswordError.textContent = "";
+  newPasswordError.textContent = "";
 }
 
 loginButton.addEventListener("click", function () {
   loginModal.style.display = "flex";
+});
+
+closeModal.addEventListener("click", function () {
+  resetLoginForm();
+
+  loginModal.style.display = "none";
 });
 
 submitButton.addEventListener("click", function () {
@@ -56,31 +73,35 @@ submitButton.addEventListener("click", function () {
     passwordError.textContent = !password
       ? "Vui lòng nhập đầy đủ thông tin"
       : "";
-  } else if (username !== user.username || password !== user.password) {
-    passwordError.textContent = "Tài khoản hoặc mật khẩu không đúng";
   } else {
-    resetLoginForm();
-    loginModal.style.display = "none";
-    loginButton.textContent = "Đăng nhập thành công";
+    submitButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+
+    setTimeout(() => {
+      if (username !== user.username || password !== user.password) {
+        passwordError.textContent = "Tài khoản hoặc mật khẩu không đúng";
+        submitButton.innerHTML = "Login";
+      } else {
+        resetLoginForm();
+
+        loginModal.style.display = "none";
+        loginButton.textContent = "Đăng nhập thành công";
+      }
+    }, 1000);
   }
 });
 
-closeModal.addEventListener("click", function () {
-  resetLoginForm();
-  loginModal.style.display = "none";
-});
-
-function resetForgotPasswordForm() {
-  oldPasswordInput.value = "";
-  newPasswordInput.value = "";
-  oldPasswordError.textContent = "";
-  newPasswordError.textContent = "";
-}
-
 forgotPasswordLink.addEventListener("click", function () {
   resetLoginForm();
+
   loginModal.style.display = "none";
   forgotPasswordModal.style.display = "flex";
+});
+
+closeForgotPasswordModal.addEventListener("click", function () {
+  resetForgotPasswordForm();
+
+  forgotPasswordModal.style.display = "none";
+  loginModal.style.display = "flex";
 });
 
 saveButton.addEventListener("click", function () {
@@ -104,15 +125,11 @@ saveButton.addEventListener("click", function () {
     newPasswordError.textContent = "Mật khẩu mới không được trùng mật khẩu cũ";
   } else {
     user.password = newPassword;
+
     resetForgotPasswordForm();
+
     forgotPasswordModal.style.display = "none";
     loginModal.style.display = "flex";
     passwordSuccessMessage.textContent = "Bạn đã đổi mật khẩu thành công";
   }
-});
-
-closeForgotPasswordModal.addEventListener("click", function () {
-  resetForgotPasswordForm();
-  forgotPasswordModal.style.display = "none";
-  loginModal.style.display = "flex";
 });
