@@ -1,0 +1,58 @@
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: x-large;
+}
+
+.navbar-brand .logo {
+  width: 60px;
+  font-weight: 500;
+}
+
+.navbar-nav .nav-item {
+  margin: 0 8px;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: orange;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+.navbar-nav:hover .nav-link.active::after {
+  width: 0;
+}
+
+.navbar-nav .nav-link.active:hover::after {
+  width: 100%;
+}
