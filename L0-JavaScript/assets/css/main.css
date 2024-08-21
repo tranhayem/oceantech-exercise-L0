@@ -1,10 +1,26 @@
+:root {
+  --navbar-height: 70px;
+}
+
 body {
   font-family: Helvetica, sans-serif;
   margin: 0;
   padding: 0;
 }
 
+.container {
+  max-width: 1200px;
+}
+
+/* ==================== NAVBAR ==================== */
 .navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+
+  max-height: var(--navbar-height);
   padding: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -32,11 +48,14 @@ body {
 
 .navbar-nav .nav-link::after {
   content: "";
+
   position: absolute;
   bottom: 0;
   left: 0;
+
   width: 0;
   height: 2px;
+
   background-color: orange;
   transition: width 0.3s ease;
 }
@@ -55,4 +74,37 @@ body {
 
 .navbar-nav .nav-link.active:hover::after {
   width: 100%;
+}
+
+.main-content {
+  margin-top: calc(var(--navbar-height) + 1.5rem);
+}
+
+/* ==================== PRODUCT ==================== */
+#product-list .card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#product-list .card-img {
+  position: relative;
+}
+
+#product-list .button-add {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 4px 8px;
+
+  border: 1px solid #bdc3c7;
+  border-radius: 50%;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#product-list .button-add:hover {
+  background: #b8e994;
+}
+
+#product-list .button-add:active {
+  background: #badc58;
 }
