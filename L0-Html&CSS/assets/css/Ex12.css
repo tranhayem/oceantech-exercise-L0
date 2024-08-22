@@ -14,11 +14,18 @@ body {
 
 .form-title {
   text-transform: uppercase;
+  width: fit-content;
 }
 
-.yellow-line {
-  width: 16%;
+.form-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 33%;
   height: 4px;
+
   background-color: #ffbd48;
 }
 
