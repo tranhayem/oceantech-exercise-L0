@@ -1,4 +1,4 @@
-import { listData, keyLocalStorageListSP } from "./Ex1";
+import { listData, keyLocalStorageListSP } from "./Ex1.js";
 
 export const saveDataToLocalStorage = () => {
   if (!Array.isArray(listData)) {
