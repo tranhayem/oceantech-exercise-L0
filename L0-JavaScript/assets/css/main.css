@@ -108,3 +108,32 @@ body {
 #product-list .button-add:active {
   background: #badc58;
 }
+
+#product-list .button-add.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.toast {
+  position: fixed;
+  top: calc(var(--navbar-height) + 1.5rem);
+  right: 1.5rem;
+  z-index: 100;
+  margin-top: 10px;
+}
+
+.toast.toast-success {
+  border-color: green;
+}
+
+.toast.toast-error {
+  border-color: red;
+}
+
+.toast.toast-info {
+  border-color: blue;
+}
+
+.toast.toast-warning {
+  border-color: orange;
+}
