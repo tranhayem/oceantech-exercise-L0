@@ -1,4 +1,3 @@
-// Import calculateTotals from Ex5.js
 import { keyLocalStorageItemCart } from "./Ex1.js";
 import { calculateTotals } from "./Ex5.js";
 import { getProductById } from "./common.js";
@@ -82,7 +81,6 @@ const renderCartItems = () => {
       .join("");
   }
 
-  // Gắn các sự kiện vào các nút sau khi render lại giao diện
   document.querySelectorAll(".quantity-decrease").forEach((button) => {
     button.addEventListener("click", () => {
       updateCartItemQuantity(parseInt(button.dataset.id, 10), -1);
@@ -101,7 +99,6 @@ const renderCartItems = () => {
     });
   });
 
-  // Luôn cập nhật thông tin giỏ hàng
   updateCartSummary(cartItems);
 };
 
