@@ -31,12 +31,12 @@ const renderCartItems = () => {
     container.innerHTML = `
       <div class="empty-cart text-center mt-5">
         <img src="../assets/images/emptyCart.png" alt="Empty Cart" />
-        <div>
-          <button type="button" class="btn btn-outline-danger">
-            <a class="text-decoration-none" href="./home.html">
+        
+        <div class="text-start">
+          <a class="text-decoration-none btn-outline-danger btn-back-to-home" href="./home.html">
+            <i class="fa-solid fa-arrow-left"></i>
               Back to Shopping
-            </a>
-          </button>
+          </a>
         </div>
       </div>
     `;
