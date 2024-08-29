@@ -218,3 +218,15 @@ body {
   color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
+
+.btn-back-to-home {
+  color: red;
+  border: 1px solid red;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.btn-back-to-home:hover {
+  color: white !important;
+  background-color: red;
+}
