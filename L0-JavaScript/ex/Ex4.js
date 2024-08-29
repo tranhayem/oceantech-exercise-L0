@@ -1,14 +1,35 @@
-import { keyLocalStorageItemCart } from "./Ex1";
+import { keyLocalStorageItemCart } from "./Ex1.js";
 
-export const addSP = (productId, quantity = 1) => {
-  const cart = JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
-  const productIndex = cart.findIndex((item) => item.idSP === productId);
+const addButtons = document.querySelectorAll(".button-add");
 
-  if (productIndex > -1) {
-    cart[productIndex].soLuong += quantity;
-  } else {
-    cart.push({ idSP: productId, soLuong: quantity });
+addButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = parseInt(button.dataset.id, 10);
+
+    addProductToCart(productId);
+  });
+});
+
+export const addProductToCart = (productId) => {
+  if (isNaN(productId) || productId <= 0) {
+    console.error("Invalid product ID");
+    return;
   }
 
-  localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cart));
+  try {
+    let cartItems =
+      JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
+
+    const existingProduct = cartItems.find((item) => item.id === productId);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      cartItems.push({ id: productId, quantity: 1 });
+    }
+
+    localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cartItems));
+  } catch (error) {
+    console.error("Failed to update cart in localStorage:", error);
+  }
 };
