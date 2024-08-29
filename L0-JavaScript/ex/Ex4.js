@@ -1,4 +1,5 @@
 import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
+import { updateCartBadge } from "./common.js";
 
 export const addSP = (productId) => {
   if (isNaN(productId) || productId <= 0) {
@@ -29,6 +30,8 @@ export const addSP = (productId) => {
     }
 
     localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cartItems));
+
+    updateCartBadge();
   } catch (error) {
     console.error("Failed to update cart in localStorage:", error);
   }
