@@ -1,5 +1,5 @@
 import { keyLocalStorageListSP, keyLocalStorageItemCart } from "./Ex1.js";
-import { addProductToCart } from "./Ex4.js";
+import { addSP } from "./Ex4.js";
 import { showToast } from "./toast.js";
 
 const updateButtonState = (products, cartItems) => {
@@ -9,10 +9,10 @@ const updateButtonState = (products, cartItems) => {
     );
 
     if (button) {
-      const cartItem = cartItems.find((item) => item.id === product.id);
+      const cartItem = cartItems.find((item) => item.idSP === product.id);
       if (
         product.quantity === 0 ||
-        (cartItem && cartItem.quantity >= product.quantity)
+        (cartItem && cartItem.soLuong >= product.quantity)
       ) {
         button.classList.add("disabled");
         button.disabled = true;
@@ -96,18 +96,19 @@ export const renderProducts = () => {
 
       if (!product || product.quantity <= 0) return;
 
-      addProductToCart(productId);
+      addSP(productId);
 
       const updatedCartItems =
         JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
-      const cartItem = updatedCartItems.find((item) => item.id === productId);
+      const cartItem = updatedCartItems.find((item) => item.idSP === productId);
+
       showToast(
         "Success",
         `You have added ${product.name} to your cart.`,
         "success"
       );
 
-      if (cartItem && cartItem.quantity >= product.quantity) {
+      if (cartItem && cartItem.soLuong >= product.quantity) {
         showToast(
           "Info",
           `The limit of products you can add to your cart has been reached.`,
