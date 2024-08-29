@@ -1,6 +1,7 @@
-import { keyLocalStorageListSP, keyLocalStorageItemCart } from "./Ex1.js";
+import { keyLocalStorageItemCart } from "./Ex1.js";
 import { addSP } from "./Ex4.js";
 import { showToast } from "./toast.js";
+import { getDataFromLocalStorage } from "./common.js";
 
 const updateButtonState = (products, cartItems) => {
   products.forEach((product) => {
@@ -19,35 +20,6 @@ const updateButtonState = (products, cartItems) => {
       }
     }
   });
-};
-
-export const getDataFromLocalStorage = () => {
-  const data = localStorage.getItem(keyLocalStorageListSP);
-
-  if (!data) {
-    console.error(
-      "No data found in localStorage for key:",
-      keyLocalStorageListSP
-    );
-
-    return;
-  }
-
-  try {
-    const parsedData = JSON.parse(data);
-
-    if (!Array.isArray(parsedData)) {
-      console.error("Data from localStorage is not an array");
-
-      return;
-    }
-
-    return parsedData;
-  } catch (error) {
-    console.error("Error parsing data from localStorage:", error);
-
-    return data;
-  }
 };
 
 export const renderProducts = () => {
@@ -69,15 +41,21 @@ export const renderProducts = () => {
       return `<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card">
                   <div class="card-img">
-                    <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">
+                    <img src="${product.imageUrl}" class="card-img-top"
+                      alt="${product.name}">
+
                     <button class="button-add " data-id="${product.id}">
                       <i class="fa-solid fa-cart-plus"></i>
                     </button>
                   </div>
+
                   <div class="card-body">
-                    <p class="card-title text-center fs-6 fw-bold">${product.name}</p>
+                    <p class="card-title text-center fs-6 fw-bold">
+                      ${product.name}
+                    </p>
+
                     <div class="d-flex justify-content-between">
-                      <p class="card-text m-0">$${product.price}</p>
+                      <p class="card-text m-0">$${product.price.toFixed(2)}</p>
                       <p class="card-text m-0">Quantity: ${product.quantity}</p>
                     </div>
                   </div>
