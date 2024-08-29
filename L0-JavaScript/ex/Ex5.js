@@ -2,7 +2,7 @@ import { getProductById } from "./common.js";
 
 export function calculateTotals(cartItems) {
   let totalQuantity = 0;
-  let totalPrice = 0.0;
+  let totalPrice = 0;
 
   if (cartItems.length > 0) {
     cartItems.forEach((item) => {
