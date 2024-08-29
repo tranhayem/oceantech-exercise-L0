@@ -1,7 +1,7 @@
 import { keyLocalStorageItemCart } from "./Ex1.js";
 import { addSP } from "./Ex4.js";
 import { showToast } from "./toast.js";
-import { getDataFromLocalStorage } from "./common.js";
+import { getDataFromLocalStorage, updateCartBadge } from "./common.js";
 
 const updateButtonState = (products, cartItems) => {
   products.forEach((product) => {
@@ -101,3 +101,4 @@ export const renderProducts = () => {
 };
 
 renderProducts();
+updateCartBadge();
