@@ -64,6 +64,151 @@
       </div>
     </nav>
 
+    <div class="container main-content">
+      <div class="shopping-cart m-5">
+        <table class="table">
+          <thead class="text-capitalize text-center">
+            <tr>
+              <th>product name</th>
+              <th>quantity</th>
+              <th>substotal</th>
+              <th>total</th>
+              <th>clear cart</th>
+            </tr>
+          </thead>
+
+          <tbody class="cart-items align-middle text-center"></tbody>
+        </table>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <a
+              class="text-decoration-none btn-outline-danger btn-back-to-home"
+              href="./home.html"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+              Back to Shopping
+            </a>
+          </div>
+
+          <div class="text-end">
+            <span class="buy-quantity"></span>
+            <p class="total-money"></p>
+            <button type="button" class="buy-btn btn btn-success">Buy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="buyModal"
+      tabindex="-1"
+      aria-labelledby="buyModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <form class="modal-content needs-validation" novalidate>
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="buyModalLabel">
+              Thông tin người mua
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label>Họ và tên<span class="text-danger">*</span></label>
+            <div class="d-flex">
+              <input
+                type="text"
+                placeholder="Họ"
+                class="form-control me-2 w-50"
+                id="lastName"
+                required
+              />
+              <p class="invalid-feedback">Vui lòng điền họ.</p>
+              <input
+                type="text"
+                placeholder="Tên"
+                class="form-control w-50"
+                id="firstName"
+                required
+              />
+              <p class="invalid-feedback">Vui lòng điền tên.</p>
+            </div>
+
+            <label>Email<span class="text-danger m-2">*</span></label>
+            <input
+              type="email"
+              placeholder="Email"
+              class="form-control w-100"
+              id="email"
+              required
+            />
+            <p class="invalid-feedback">Vui lòng điền email.</p>
+
+            <label>Số điện thoại<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              placeholder="Số điện thoại"
+              class="form-control w-100"
+              id="phone"
+              required
+            />
+            <p class="invalid-feedback">Vui lòng điền số điện thoại.</p>
+
+            <label>Địa chỉ<span class="text-danger">*</span></label>
+            <div class="d-flex justify-content-between">
+              <select id="province" class="form-select" required>
+                <option selected disabled value="">
+                  --Chọn Tỉnh/ Thành phố--
+                </option>
+              </select>
+              <p class="invalid-feedback">Vui lòng chọn tỉnh/ thành phố.</p>
+              <select id="district" class="form-select" disabled required>
+                <option selected disabled value="">--Chọn Huyện/ Quận--</option>
+              </select>
+              <p class="invalid-feedback">Vui lòng chọn huyện/ quận.</p>
+              <select id="ward" class="form-select" disabled required>
+                <option selected disabled value="">--Chọn Phường/Xã--</option>
+              </select>
+              <p class="invalid-feedback">Vui lòng chọn phường/ xã.</p>
+            </div>
+            <input
+              type="text"
+              placeholder="Số nhà"
+              class="form-control mt-2 w-100"
+              id="houseNum"
+            />
+            <label>Lời nhắn</label>
+            <textarea
+              name=""
+              id="message"
+              rows="5"
+              class="form-control w-100"
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Huỷ
+            </button>
+            <button type="submit" class="btn btn-primary confirm-btn">
+              Xác nhận
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
