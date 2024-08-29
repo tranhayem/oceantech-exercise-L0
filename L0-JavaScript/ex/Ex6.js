@@ -1,6 +1,6 @@
 import { keyLocalStorageItemCart } from "./Ex1.js";
 import { calculateTotals } from "./Ex5.js";
-import { getProductById } from "./common.js";
+import { getProductById, updateCartBadge } from "./common.js";
 
 const getCartItems = () => {
   return JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
@@ -111,6 +111,7 @@ const renderCartItems = () => {
   document.querySelectorAll(".clear-btn").forEach((button) => {
     button.addEventListener("click", () => {
       clearCartItem(parseInt(button.dataset.id, 10));
+      updateCartBadge();
     });
   });
 
@@ -163,3 +164,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 renderCartItems();
+updateCartBadge();
