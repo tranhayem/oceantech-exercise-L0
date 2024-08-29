@@ -1,17 +1,11 @@
 import { listData, keyLocalStorageListSP } from "./Ex1.js";
 
-export const saveDataToLocalStorage = () => {
-  if (!Array.isArray(listData)) {
-    console.error("listData is not an array");
-
-    return;
+export const saveDataToLocalStorage = (key, value) => {
+  if (Array.isArray(value)) {
+    localStorage.setItem(key, JSON.stringify(value));
+  } else {
+    console.error("Dữ liệu không phải là mảng");
   }
-
-  if (listData.length === 0) {
-    return;
-  }
-
-  localStorage.setItem(keyLocalStorageListSP, JSON.stringify(listData));
 };
 
-saveDataToLocalStorage();
+saveDataToLocalStorage(keyLocalStorageListSP, listData);
