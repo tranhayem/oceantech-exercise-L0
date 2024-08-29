@@ -6,11 +6,11 @@ addButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const productId = parseInt(button.dataset.id, 10);
 
-    addProductToCart(productId);
+    addSP(productId);
   });
 });
 
-export const addProductToCart = (productId) => {
+export const addSP = (productId) => {
   if (isNaN(productId) || productId <= 0) {
     console.error("Invalid product ID");
     return;
@@ -20,12 +20,12 @@ export const addProductToCart = (productId) => {
     let cartItems =
       JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
 
-    const existingProduct = cartItems.find((item) => item.id === productId);
+    const existingProduct = cartItems.find((item) => item.idSP === productId);
 
     if (existingProduct) {
-      existingProduct.quantity += 1;
+      existingProduct.soLuong += 1;
     } else {
-      cartItems.push({ id: productId, quantity: 1 });
+      cartItems.push({ idSP: productId, soLuong: 1 });
     }
 
     localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cartItems));
