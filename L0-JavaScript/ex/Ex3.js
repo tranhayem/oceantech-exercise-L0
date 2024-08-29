@@ -1,4 +1,25 @@
-import { keyLocalStorageListSP } from "./Ex1.js";
+import { keyLocalStorageListSP, keyLocalStorageItemCart } from "./Ex1.js";
+import { addProductToCart } from "./Ex4.js";
+import { showToast } from "./toast.js";
+
+const updateButtonState = (products, cartItems) => {
+  products.forEach((product) => {
+    const button = document.querySelector(
+      `.button-add[data-id="${product.id}"]`
+    );
+
+    if (button) {
+      const cartItem = cartItems.find((item) => item.id === product.id);
+      if (
+        product.quantity === 0 ||
+        (cartItem && cartItem.quantity >= product.quantity)
+      ) {
+        button.classList.add("disabled");
+        button.disabled = true;
+      }
+    }
+  });
+};
 
 export const getDataFromLocalStorage = () => {
   const data = localStorage.getItem(keyLocalStorageListSP);
@@ -8,7 +29,8 @@ export const getDataFromLocalStorage = () => {
       "No data found in localStorage for key:",
       keyLocalStorageListSP
     );
-    return null;
+
+    return;
   }
 
   try {
@@ -16,37 +38,44 @@ export const getDataFromLocalStorage = () => {
 
     if (!Array.isArray(parsedData)) {
       console.error("Data from localStorage is not an array");
-      return null;
+
+      return;
     }
 
     return parsedData;
   } catch (error) {
     console.error("Error parsing data from localStorage:", error);
-    return null;
+
+    return data;
   }
 };
 
 export const renderProducts = () => {
   const products = getDataFromLocalStorage();
-
-  if (!products) return;
-
   const productListElement = document.getElementById("product-list");
-  productListElement.innerHTML = "";
 
-  products.forEach((product) => {
-    const productElement = document.createElement("div");
-    productElement.className = "col-sm-6 col-md-4 col-lg-3 mb-4";
-    productElement.innerHTML = `
+  if (!products) {
+    productListElement.innerHTML =
+      "<div>There are currently no products in the store.</div>";
+    return;
+  }
+
+  const cartItems =
+    JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
+
+  const productElements = products.map((product) => {
+    if (product.quantity === 0) {
+      return;
+    }
+
+    return `<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
       <div class="card">
         <div class="card-img">
           <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">
-          
-          <button class="button-add" data-id=${product.id}>
+          <button class="button-add " data-id="${product.id}">
             <i class="fa-solid fa-cart-plus"></i>
           </button>
         </div>
-        
         <div class="card-body">
           <p class="card-title text-center fs-6 fw-bold">${product.name}</p>
           <div class="d-flex justify-content-between">
@@ -55,10 +84,43 @@ export const renderProducts = () => {
           </div>
         </div>
       </div>
-    `;
-
-    productListElement.appendChild(productElement);
+    </div>`;
   });
+
+  productListElement.innerHTML = productElements.join("");
+
+  document.querySelectorAll(".button-add").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = parseInt(button.dataset.id, 10);
+      const product = products.find((p) => p.id === productId);
+
+      if (!product || product.quantity <= 0) return;
+
+      addProductToCart(productId);
+
+      const updatedCartItems =
+        JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
+      const cartItem = updatedCartItems.find((item) => item.id === productId);
+      showToast(
+        "Success",
+        `You have added ${product.name} to your cart.`,
+        "success"
+      );
+
+      if (cartItem && cartItem.quantity >= product.quantity) {
+        showToast(
+          "Info",
+          `The limit of products you can add to your cart has been reached.`,
+          "info"
+        );
+
+        button.classList.add("disabled");
+        button.disabled = true;
+      }
+    });
+  });
+
+  updateButtonState(products, cartItems);
 };
 
-window.onload = renderProducts;
+renderProducts();
