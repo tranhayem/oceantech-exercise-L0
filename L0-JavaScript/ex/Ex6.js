@@ -12,17 +12,12 @@ const updateCartSummary = (cartItems) => {
   const buyQuantityElement = document.querySelector(".buy-quantity");
   const totalMoneyElement = document.querySelector(".total-money");
 
-  if (cartItems.length === 0) {
-    buyQuantityElement.textContent = `Total Quantity: 0`;
-    totalMoneyElement.textContent = `Total Price: $0.00`;
-  } else {
-    buyQuantityElement.textContent = `Total Quantity: ${totalsMap.get(
-      "totalQuantity"
-    )}`;
-    totalMoneyElement.textContent = `Total Price: $${totalsMap.get(
-      "totalPrice"
-    )}`;
-  }
+  buyQuantityElement.textContent = `Total Quantity: ${totalsMap.get(
+    "totalQuantity"
+  )}`;
+  totalMoneyElement.textContent = `Total Price: $${totalsMap.get(
+    "totalPrice"
+  )}`;
 };
 
 const renderCartItems = () => {
@@ -30,56 +25,76 @@ const renderCartItems = () => {
   const cartItemsContainer = document.querySelector(".cart-items");
 
   if (!cartItems.length) {
-    cartItemsContainer.innerHTML =
-      "<tr><td colspan='5'>Your cart is empty.</td></tr>";
-  } else {
-    cartItemsContainer.innerHTML = cartItems
-      .map((item) => {
-        const product = getProductById(item.idSP);
-        const productInStock = product.quantity;
-        const purchaseQuantity = item.soLuong;
-        const isMaxQuantity = purchaseQuantity >= productInStock;
-        const subtotal = product.price * item.soLuong;
+    document.querySelector(".shopping-cart").style.display = "none";
 
-        return `<tr>
-          <td class="text-start">
-            <img src="${product.imageUrl}"
-              alt="${product.name}" width="80px"
-              class="m-2 bg-body-secondary p-1 object-fit-cover">
+    const container = document.querySelector(".main-content");
+    container.innerHTML = `
+      <div class="empty-cart text-center mt-5">
+        <img src="../assets/images/emptyCart.png" alt="Empty Cart" />
+        <div>
+          <button type="button" class="btn btn-outline-danger">
+            <a class="text-decoration-none" href="./home.html">
+              Back to Shopping
+            </a>
+          </button>
+        </div>
+      </div>
+    `;
 
-            <div class="d-inline-block align-middle">
-              <div class="fw-bold">${product.name}</div>
-              <div>Quantity: ${productInStock}</div>
-            </div>
-          </td>
-
-          <td class="">
-            <button class="btn btn-outline-secondary quantity-decrease" data-id="${
-              item.idSP
-            }" ${purchaseQuantity === 1 ? "disabled" : ""}>-</button>
-
-            <span class="mx-2">${purchaseQuantity}</span>
-
-            <button class="btn btn-outline-secondary quantity-increase" data-id="${
-              item.idSP
-            }" ${isMaxQuantity ? "disabled" : ""}>+</button>
-          </td>
-
-          <td class="">$${product.price.toFixed(2)}</td>
-
-          <td class="">$${subtotal.toFixed(2)}</td>
-
-          <td class="">
-            <button class="btn btn-outline-danger clear-btn rounded-circle" data-id="${
-              item.idSP
-            }">
-              <i class="fas fa-times"></i>
-            </button>
-          </td>
-        </tr>`;
-      })
-      .join("");
+    return;
   }
+
+  document.querySelector(".shopping-cart").style.display = "block";
+
+  cartItemsContainer.innerHTML = cartItems
+    .map((item) => {
+      const product = getProductById(item.idSP);
+      const productInStock = product.quantity;
+      const purchaseQuantity = item.soLuong;
+      const isMaxQuantity = purchaseQuantity >= productInStock;
+      const subtotal = product.price * item.soLuong;
+
+      return `<tr>
+        <td class="align-middle text-start">
+          <img src="${product.imageUrl}"
+            alt="${product.name}" width="60px"
+            class="m-2 bg-body-secondary p-1 object-fit-cover">
+          
+          <div class="d-inline-block align-middle">
+            <div class="fw-bold">${product.name}</div>
+            <div>Quantity: ${productInStock}</div>
+          </div>
+        </td>
+
+        <td>
+          <button class="btn btn-outline-secondary quantity-decrease"
+            data-id="${item.idSP}"
+            ${purchaseQuantity === 1 ? "disabled" : ""}>
+              -
+          </button>
+
+          <span class="mx-2">${purchaseQuantity}</span>
+
+          <button class="btn btn-outline-secondary quantity-increase"
+            data-id="${item.idSP}"
+            ${isMaxQuantity ? "disabled" : ""}>
+              +
+          </button>
+        </td>
+
+        <td>$${product.price}</td>
+
+        <td>$${subtotal}</td>
+
+        <td>
+          <button class="btn btn-outline-danger rounded-circle clear-btn"
+            data-id="${item.idSP}">
+              <i class="fas fa-times"></i>
+          </button>
+        </td>
+      </tr>`;
+    })
+    .join("");
 
   document.querySelectorAll(".quantity-decrease").forEach((button) => {
     button.addEventListener("click", () => {
@@ -125,5 +140,26 @@ const clearCartItem = (idSP) => {
   localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cartItems));
   renderCartItems();
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const buyButton = document.querySelector(".buy-btn");
+
+  if (buyButton) {
+    buyButton.addEventListener("click", () => {
+      const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+      buyModal.show();
+    });
+  }
+
+  const form = document.querySelector("#buyModal form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    alert("Form submitted!");
+    const buyModal = bootstrap.Modal.getInstance(
+      document.getElementById("buyModal")
+    );
+    buyModal.hide();
+  });
+});
 
 renderCartItems();
