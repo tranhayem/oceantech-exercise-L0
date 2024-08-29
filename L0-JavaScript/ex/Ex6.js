@@ -67,17 +67,17 @@ const renderCartItems = () => {
         </td>
 
         <td>
-          <button class="btn btn-outline-secondary quantity-decrease"
-            data-id="${item.idSP}"
-            ${purchaseQuantity === 1 ? "disabled" : ""}>
+          <button class="btn quantity-decrease border-0 fs-5
+            ${purchaseQuantity === 1 ? "invisible" : ""}"
+            data-id="${item.idSP}">
               -
           </button>
 
           <span class="mx-2">${purchaseQuantity}</span>
 
-          <button class="btn btn-outline-secondary quantity-increase"
-            data-id="${item.idSP}"
-            ${isMaxQuantity ? "disabled" : ""}>
+          <button class="btn quantity-increase border-0 fs-5
+            ${isMaxQuantity ? "invisible" : ""}"
+            data-id="${item.idSP}">
               +
           </button>
         </td>
