@@ -1,14 +1,4 @@
-import { keyLocalStorageItemCart } from "./Ex1.js";
-
-const addButtons = document.querySelectorAll(".button-add");
-
-addButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const productId = parseInt(button.dataset.id, 10);
-
-    addSP(productId);
-  });
-});
+import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
 
 export const addSP = (productId) => {
   if (isNaN(productId) || productId <= 0) {
@@ -17,6 +7,16 @@ export const addSP = (productId) => {
   }
 
   try {
+    const products =
+      JSON.parse(localStorage.getItem(keyLocalStorageListSP)) || [];
+
+    const product = products.find((p) => p.id === productId);
+
+    if (!product) {
+      console.error("Product not found");
+      return;
+    }
+
     let cartItems =
       JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
 
@@ -25,7 +25,7 @@ export const addSP = (productId) => {
     if (existingProduct) {
       existingProduct.soLuong += 1;
     } else {
-      cartItems.push({ idSP: productId, soLuong: 1 });
+      cartItems.push({ idSP: productId, soLuong: 1, price: product.price });
     }
 
     localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cartItems));
