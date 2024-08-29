@@ -4,7 +4,7 @@ export const saveDataToLocalStorage = (key, value) => {
   if (Array.isArray(value)) {
     localStorage.setItem(key, JSON.stringify(value));
   } else {
-    console.error("Dữ liệu không phải là mảng");
+    console.error("Data is not an array.");
   }
 };
 
