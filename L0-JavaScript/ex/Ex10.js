@@ -1,14 +1,18 @@
-export const generateRandomID = (() => {
-  const ids = new Set();
+const existingIDs = new Set();
 
+const generateRandomID = (() => {
   const createID = () => {
     const id = Math.random().toString(36).substr(2, 9);
-    if (ids.has(id)) {
-      return createID();
-    }
-    ids.add(id);
-    return id;
+    return existingIDs.has(id) ? createID() : id;
   };
 
-  return createID;
+  return () => {
+    const newID = createID();
+    existingIDs.add(newID);
+    return newID;
+  };
 })();
+
+const checkID = (id) => {
+  return existingIDs.has(id) ? "ID already exists." : "Valid ID.";
+};
