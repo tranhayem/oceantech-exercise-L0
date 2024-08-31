@@ -1,5 +1,5 @@
-import { getDataFromLocalStorage, updateCartBadge } from "./common.js";
 import { keyLocalStorageItemCart } from "./Ex1.js";
+import { getFromLocalStorage } from "./Ex12.js";
 import { addSP } from "./Ex4.js";
 import { showToast } from "./toast.js";
 
@@ -23,7 +23,7 @@ const updateButtonState = (products, cartItems) => {
 };
 
 export const renderProducts = () => {
-  const products = getDataFromLocalStorage();
+  const products = getFromLocalStorage(keyLocalStorageListSP);
   const productListElement = document.getElementById("product-list");
 
   if (!products) {
