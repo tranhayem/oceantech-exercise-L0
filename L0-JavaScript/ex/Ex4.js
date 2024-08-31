@@ -1,5 +1,6 @@
-import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
 import { updateCartBadge } from "./common.js";
+import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
+import { getFromLocalStorage, saveToLocalStorage } from "./Ex12.js";
 
 export const addSP = (productId) => {
   if (isNaN(productId) || productId <= 0) {
@@ -8,9 +9,7 @@ export const addSP = (productId) => {
   }
 
   try {
-    const products =
-      JSON.parse(localStorage.getItem(keyLocalStorageListSP)) || [];
-
+    const products = getFromLocalStorage(keyLocalStorageListSP);
     const product = products.find((p) => p.id === productId);
 
     if (!product) {
@@ -29,7 +28,7 @@ export const addSP = (productId) => {
       cartItems.push({ idSP: productId, soLuong: 1, price: product.price });
     }
 
-    localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(cartItems));
+    saveToLocalStorage(keyLocalStorageItemCart, cartItems);
 
     updateCartBadge();
   } catch (error) {
