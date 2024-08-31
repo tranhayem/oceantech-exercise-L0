@@ -1,6 +1,6 @@
 const existingIDs = new Set();
 
-const generateRandomID = (() => {
+export const generateRandomID = (() => {
   const createID = () => {
     const id = Math.random().toString(36).substr(2, 9);
     return existingIDs.has(id) ? createID() : id;
@@ -13,6 +13,6 @@ const generateRandomID = (() => {
   };
 })();
 
-const checkID = (id) => {
+export const checkID = (id) => {
   return existingIDs.has(id) ? "ID already exists." : "Valid ID.";
 };
