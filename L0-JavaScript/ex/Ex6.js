@@ -24,7 +24,7 @@ const renderCartItems = () => {
   const cartItems = getCartItems();
   const cartItemsContainer = document.querySelector(".cart-items");
 
-  if (!cartItems.length) {
+  if (!cartItems || !cartItems.length) {
     document.querySelector(".shopping-cart").style.display = "none";
 
     const container = document.querySelector(".main-content");
