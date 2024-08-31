@@ -1,9 +1,9 @@
 import { keyLocalStorageItemCart } from "./Ex1.js";
+import { getFromLocalStorage } from "./Ex12.js";
 import { calculateTotals } from "./Ex5.js";
-import { getProductById, updateCartBadge } from "./common.js";
 
 const getCartItems = () => {
-  return JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
+  return getFromLocalStorage(keyLocalStorageItemCart);
 };
 
 const updateCartSummary = (cartItems) => {
