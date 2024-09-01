@@ -1,4 +1,4 @@
-const baseUrl = "https://provinces.open-api.vn/api";
+const provincesURL = "https://provinces.open-api.vn/api";
 
 const fetchData = async (url) => {
   try {
@@ -11,15 +11,15 @@ const fetchData = async (url) => {
   }
 };
 
-export const getProvinceData = () => fetchData(`${baseUrl}/p`);
+export const getProvinceData = () => fetchData(`${provincesURL}/p`);
 
 export const getDistrictsByProvinceID = (provinceId) =>
-  fetchData(`${baseUrl}/p/${provinceId}?depth=2`).then(
+  fetchData(`${provincesURL}/p/${provinceId}?depth=2`).then(
     (data) => data?.districts || []
   );
 
 export const getWardsByDistrictsID = (districtId) =>
-  fetchData(`${baseUrl}/d/${districtId}?depth=2`).then(
+  fetchData(`${provincesURL}/d/${districtId}?depth=2`).then(
     (data) => data?.wards || []
   );
 
