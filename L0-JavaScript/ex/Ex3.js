@@ -1,4 +1,4 @@
-import { keyLocalStorageItemCart } from "./Ex1.js";
+import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
 import { getFromLocalStorage } from "./Ex12.js";
 import { addSP } from "./Ex4.js";
 import { showToast } from "./toast.js";
@@ -101,4 +101,3 @@ export const renderProducts = () => {
 };
 
 renderProducts();
-updateCartBadge();
