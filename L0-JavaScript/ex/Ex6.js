@@ -1,6 +1,7 @@
 import { keyLocalStorageItemCart } from "./Ex1.js";
 import { getFromLocalStorage } from "./Ex12.js";
 import { calculateTotals } from "./Ex5.js";
+import { getProductById } from "./common.js";
 
 const getCartItems = () => {
   return getFromLocalStorage(keyLocalStorageItemCart);
@@ -164,4 +165,3 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 renderCartItems();
-updateCartBadge();
