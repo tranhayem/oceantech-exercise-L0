@@ -25,7 +25,13 @@ export const addSP = (productId) => {
     if (existingProduct) {
       existingProduct.soLuong += 1;
     } else {
-      cartItems.push({ idSP: productId, soLuong: 1, price: product.price });
+      cartItems.push({
+        idSP: productId,
+        name: product.name,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        soLuong: 1,
+      });
     }
 
     saveToLocalStorage(keyLocalStorageItemCart, cartItems);
