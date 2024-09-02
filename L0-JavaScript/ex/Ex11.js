@@ -1,8 +1,11 @@
-import { keyLocalStorageItemCart } from "./Ex1.js";
+import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
 import { generateRandomID } from "./Ex10.js";
+import { getFromLocalStorage, saveToLocalStorage } from "./Ex12.js";
+import { addOrder } from "./Ex13.js";
+import { getProductById } from "./common.js";
 import { showToast } from "./toast.js";
 
-const form = document.querySelector(".modal-content");
+const form = document.querySelector("#orderForm");
 const buyButton = document.querySelector(".confirm-btn");
 
 const lastName = document.getElementById("lastName");
@@ -13,6 +16,7 @@ const houseNum = document.getElementById("houseNum");
 const province = document.getElementById("province");
 const district = document.getElementById("district");
 const ward = document.getElementById("ward");
+const message = document.getElementById("message");
 
 const lastNameInvalid = document.getElementById("lastName-invalid");
 const firstNameInvalid = document.getElementById("firstName-invalid");
@@ -26,99 +30,114 @@ const validateName = (name) => /^[A-Za-zÀ-ÿ\s]+$/.test(name);
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const validatePhone = (phone) => /^\d{9,10}$/.test(phone);
 
+const validateField = (field, validator, errorMsgElement, errorMsg) => {
+  if (!field.value.trim()) {
+    errorMsgElement.innerText = errorMsg.empty;
+    return false;
+  } else if (!validator(field.value)) {
+    errorMsgElement.innerText = errorMsg.invalid;
+    return false;
+  }
+  errorMsgElement.innerText = "";
+  return true;
+};
+
 const validateInput = () => {
   let isValid = true;
 
-  if (!lastName.value.trim()) {
-    lastNameInvalid.innerText = "Vui lòng điền họ.";
-    isValid = false;
-  } else if (!validateName(lastName.value)) {
-    lastNameInvalid.innerText = "Họ chỉ được phép sử dụng chữ cái.";
-    isValid = false;
-  } else {
-    lastNameInvalid.innerText = "";
-  }
+  isValid &= validateField(lastName, validateName, lastNameInvalid, {
+    empty: "Vui lòng điền họ.",
+    invalid: "Họ chỉ được phép sử dụng chữ cái.",
+  });
 
-  if (!firstName.value.trim()) {
-    firstNameInvalid.innerText = "Vui lòng điền tên.";
-    isValid = false;
-  } else if (!validateName(firstName.value)) {
-    firstNameInvalid.innerText = "Tên chỉ được phép sử dụng chữ cái.";
-    isValid = false;
-  } else {
-    firstNameInvalid.innerText = "";
-  }
+  isValid &= validateField(firstName, validateName, firstNameInvalid, {
+    empty: "Vui lòng điền tên.",
+    invalid: "Tên chỉ được phép sử dụng chữ cái.",
+  });
 
-  if (!email.value.trim()) {
-    emailInvalid.innerText = "Vui lòng điền email.";
-    isValid = false;
-  } else if (!validateEmail(email.value)) {
-    emailInvalid.innerText =
-      "Email không hợp lệ. Vui lòng điền theo định dạng: example@domain.com";
-    isValid = false;
-  } else {
-    emailInvalid.innerText = "";
-  }
+  isValid &= validateField(email, validateEmail, emailInvalid, {
+    empty: "Vui lòng điền email.",
+    invalid:
+      "Email không hợp lệ. Vui lòng điền theo định dạng: example@domain.com",
+  });
 
-  if (!phone.value.trim()) {
-    phoneInvalid.innerText = "Vui lòng điền số điện thoại.";
-    isValid = false;
-  } else if (!validatePhone(phone.value)) {
-    phoneInvalid.innerText = "Số điện thoại phải là kiểu số, tối đa 10 chữ số.";
-    isValid = false;
-  } else {
-    phoneInvalid.innerText = "";
-  }
+  isValid &= validateField(phone, validatePhone, phoneInvalid, {
+    empty: "Vui lòng điền số điện thoại.",
+    invalid: "Số điện thoại phải là kiểu số, tối đa 10 chữ số.",
+  });
 
-  if (!province.value) {
-    provinceInvalid.innerText = "Vui lòng chọn tỉnh/thành phố.";
-    isValid = false;
-  } else {
-    provinceInvalid.innerText = "";
-  }
+  isValid &= validateField(province, () => !!province.value, provinceInvalid, {
+    empty: "Vui lòng chọn tỉnh/thành phố.",
+  });
 
-  if (!district.value) {
-    districtInvalid.innerText = "Vui lòng chọn huyện/quận.";
-    isValid = false;
-  } else {
-    districtInvalid.innerText = "";
-  }
+  isValid &= validateField(district, () => !!district.value, districtInvalid, {
+    empty: "Vui lòng chọn huyện/quận.",
+  });
 
-  if (!ward.value) {
-    wardInvalid.innerText = "Vui lòng chọn phường/xã.";
-    isValid = false;
-  } else {
-    wardInvalid.innerText = "";
-  }
+  isValid &= validateField(ward, () => !!ward.value, wardInvalid, {
+    empty: "Vui lòng chọn phường/xã.",
+  });
 
   return isValid;
 };
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
   event.preventDefault();
 
+  const cartItems = getFromLocalStorage(keyLocalStorageItemCart);
   if (!validateInput()) {
     showToast("Error", "Vui lòng điền đầy đủ thông tin hợp lệ.", "error");
     return;
   }
 
+  for (const item of cartItems) {
+    const product = getProductById(item.idSP);
+    if (item.soLuong > product.quantity) {
+      showToast(
+        "Error",
+        `Số lượng mua của ${product.name} vượt quá số lượng có sẵn.`,
+        "error"
+      );
+      return;
+    }
+  }
+
   const orderInfo = {
     id: generateRandomID(),
-    purchaseDate: new Date().toLocaleDateString(),
     user: {
       fullName: `${lastName.value} ${firstName.value}`,
       email: email.value,
       phone: phone.value,
-      address: `${houseNum.value}, ${ward.options[ward.selectedIndex].text}, ${
-        district.options[district.selectedIndex].text
-      }, ${province.options[province.selectedIndex].text}`,
+      address: `${houseNum.value ? `Số nhà ${houseNum.value}` : ""} ${
+        ward.options[ward.selectedIndex].text
+      }, ${district.options[district.selectedIndex].text}, ${
+        province.options[province.selectedIndex].text
+      }`,
+      message: message.value,
     },
+    cartItems: cartItems,
+    purchaseDate: new Date().toLocaleDateString(),
   };
 
-  showToast("Success", "Đơn hàng đã được xác nhận!", "success");
-  form.reset();
-  localStorage.setItem(keyLocalStorageItemCart, JSON.stringify([]));
-  window.location.href = "bills.html";
+  const newOrder = await addOrder(orderInfo);
+  if (newOrder) {
+    showToast("Success", "Đặt hàng thành công!", "success");
+    localStorage.removeItem(keyLocalStorageItemCart);
+    form.reset();
+
+    const products = getFromLocalStorage(keyLocalStorageListSP);
+    cartItems.forEach((item) => {
+      const product = products.find((p) => p.id === item.idSP);
+      if (product) {
+        product.quantity -= item.soLuong;
+      }
+    });
+    saveToLocalStorage(keyLocalStorageListSP, products);
+
+    window.location.href = "bills.html";
+  } else {
+    showToast("Error", "Đã xảy ra lỗi khi đặt hàng.", "error");
+  }
 };
 
 buyButton.addEventListener("click", handleSubmit);
