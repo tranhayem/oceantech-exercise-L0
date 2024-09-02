@@ -1,7 +1,8 @@
 import { keyLocalStorageItemCart } from "./Ex1.js";
 import { getFromLocalStorage } from "./Ex12.js";
 import { calculateTotals } from "./Ex5.js";
-import { getProductById } from "./common.js";
+import { getProductById, updateCartBadge } from "./common.js";
+import { showToast } from "./toast.js";
 
 const getCartItems = () => {
   return getFromLocalStorage(keyLocalStorageItemCart);
@@ -111,8 +112,15 @@ const renderCartItems = () => {
 
   document.querySelectorAll(".clear-btn").forEach((button) => {
     button.addEventListener("click", () => {
-      clearCartItem(parseInt(button.dataset.id, 10));
-      updateCartBadge();
+      const idSP = parseInt(button.dataset.id, 10);
+      const confirmed = confirm(
+        "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?"
+      );
+      if (confirmed) {
+        showToast("Thành công", "Sản phẩm đã được xóa thành công!", "success");
+        clearCartItem(idSP);
+        updateCartBadge();
+      }
     });
   });
 
