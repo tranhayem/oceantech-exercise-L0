@@ -94,10 +94,10 @@ const renderOrders = async () => {
   document.querySelectorAll(".delete-order-btn").forEach((button) => {
     button.addEventListener("click", async () => {
       const orderId = button.dataset.id;
-      const confirmed = confirm("Are you sure you want to delete this order?");
+      const confirmed = confirm("Bạn có chắc chắn muốn xóa đơn hàng này?");
       if (confirmed) {
         await deleteOrder(orderId);
-        showToast("Success", "Order deleted successfully.", "success");
+        showToast("Thành công", "Đơn hàng đã được xóa thành công!", "success");
         renderOrders();
       }
     });
