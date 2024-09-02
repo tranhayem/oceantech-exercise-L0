@@ -1,7 +1,8 @@
 import { keyLocalStorageItemCart, keyLocalStorageListSP } from "./Ex1.js";
-import { getFromLocalStorage } from "./Ex12.js";
+import { getFromLocalStorage, saveToLocalStorage } from "./Ex12.js";
 import { addSP } from "./Ex4.js";
 import { showToast } from "./toast.js";
+import { getOrders } from "./Ex13.js";
 
 const updateButtonState = (products, cartItems) => {
   products.forEach((product) => {
@@ -22,8 +23,21 @@ const updateButtonState = (products, cartItems) => {
   });
 };
 
-export const renderProducts = () => {
-  const products = getFromLocalStorage(keyLocalStorageListSP);
+const updateProductQuantities = async (products) => {
+  const orders = await getOrders();
+  orders.forEach((order) => {
+    order.cartItems.forEach((item) => {
+      const product = products.find((p) => p.id === item.idSP);
+      if (product) {
+        product.quantity -= item.soLuong;
+      }
+    });
+  });
+  saveToLocalStorage(keyLocalStorageListSP, products);
+};
+
+export const renderProducts = async () => {
+  let products = getFromLocalStorage(keyLocalStorageListSP);
   const productListElement = document.getElementById("product-list");
 
   if (!products) {
@@ -31,6 +45,8 @@ export const renderProducts = () => {
       "<div>There are currently no products in the store.</div>";
     return;
   }
+
+  await updateProductQuantities(products);
 
   const cartItems =
     JSON.parse(localStorage.getItem(keyLocalStorageItemCart)) || [];
