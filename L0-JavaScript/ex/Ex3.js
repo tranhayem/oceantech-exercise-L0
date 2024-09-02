@@ -95,15 +95,15 @@ export const renderProducts = async () => {
       const cartItem = updatedCartItems.find((item) => item.idSP === productId);
 
       showToast(
-        "Success",
-        `You have added ${product.name} to your cart.`,
+        "Thành công",
+        `Bạn đã thêm ${product.name} vào giỏ hàng.`,
         "success"
       );
 
       if (cartItem && cartItem.soLuong >= product.quantity) {
         showToast(
-          "Info",
-          `The limit of products you can add to your cart has been reached.`,
+          "Thông báo",
+          `Số lượng sản phẩm bạn có thể thêm vào giỏ hàng đã đạt giới hạn.`,
           "info"
         );
 
