@@ -363,9 +363,11 @@ const handleSubmit = async (event) => {
       fullName: `${lastName.value} ${firstName.value}`,
       email: email.value,
       phone: phone.value,
-      address: `${houseNum.value}, ${ward.options[ward.selectedIndex].text}, ${
-        district.options[district.selectedIndex].text
-      }, ${province.options[province.selectedIndex].text}`,
+      address: `${houseNum.value ? `Số nhà ${houseNum.value},` : ""} ${
+        ward.options[ward.selectedIndex].text
+      }, ${district.options[district.selectedIndex].text}, ${
+        province.options[province.selectedIndex].text
+      }`,
       message: message.value,
     },
     cartItems,
