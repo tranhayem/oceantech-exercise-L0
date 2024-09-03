@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="shortcut icon"
+      href="../assets/images/logo.svg"
+      type="image/x-icon"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -58,7 +63,10 @@
 
             <li class="nav-item">
               <a class="nav-link" href="./cart.html">
-                <i class="fas fa-shopping-cart"></i>
+                <div class="cart-icon">
+                  <i class="fas fa-shopping-cart"></i>
+                  <span id="cart-badge" class="badge"></span>
+                </div>
               </a>
             </li>
           </ul>
@@ -77,5 +85,7 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+
+    <script type="module" src="../scripts/products.js"></script>
   </body>
 </html>
