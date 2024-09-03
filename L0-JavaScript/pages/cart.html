@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="shortcut icon"
+      href="../assets/images/logo.svg"
+      type="image/x-icon"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -56,7 +61,10 @@
 
             <li class="nav-item">
               <a class="nav-link active" href="./cart.html">
-                <i class="fas fa-shopping-cart"></i>
+                <div class="cart-icon">
+                  <i class="fas fa-shopping-cart"></i>
+                  <span id="cart-badge" class="badge"></span>
+                </div>
               </a>
             </li>
           </ul>
@@ -100,7 +108,6 @@
       </div>
     </div>
 
-    <!-- Modal -->
     <div
       class="modal fade"
       id="buyModal"
@@ -109,11 +116,12 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-lg">
-        <form class="modal-content needs-validation" novalidate>
+        <form id="orderForm" class="modal-content needs-validation">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="buyModalLabel">
               Thông tin người mua
             </h1>
+
             <button
               type="button"
               class="btn-close"
@@ -121,28 +129,33 @@
               aria-label="Close"
             ></button>
           </div>
+
           <div class="modal-body">
             <label>Họ và tên<span class="text-danger">*</span></label>
-            <div class="d-flex">
-              <input
-                type="text"
-                placeholder="Họ"
-                class="form-control me-2 w-50"
-                id="lastName"
-                required
-              />
-              <p class="invalid-feedback">Vui lòng điền họ.</p>
-              <input
-                type="text"
-                placeholder="Tên"
-                class="form-control w-50"
-                id="firstName"
-                required
-              />
-              <p class="invalid-feedback">Vui lòng điền tên.</p>
+            <div class="row">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  placeholder="Họ"
+                  class="form-control"
+                  id="lastName"
+                  required
+                />
+                <div id="lastName-invalid" class="text-danger"></div>
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  placeholder="Tên"
+                  class="form-control"
+                  id="firstName"
+                  required
+                />
+                <div id="firstName-invalid" class="text-danger"></div>
+              </div>
             </div>
 
-            <label>Email<span class="text-danger m-2">*</span></label>
+            <label>Email<span class="text-danger">*</span></label>
             <input
               type="email"
               placeholder="Email"
@@ -150,7 +163,7 @@
               id="email"
               required
             />
-            <p class="invalid-feedback">Vui lòng điền email.</p>
+            <div id="email-invalid" class="text-danger"></div>
 
             <label>Số điện thoại<span class="text-danger">*</span></label>
             <input
@@ -160,39 +173,52 @@
               id="phone"
               required
             />
-            <p class="invalid-feedback">Vui lòng điền số điện thoại.</p>
+            <div id="phone-invalid" class="text-danger"></div>
 
             <label>Địa chỉ<span class="text-danger">*</span></label>
-            <div class="d-flex justify-content-between">
-              <select id="province" class="form-select" required>
-                <option selected disabled value="">
-                  --Chọn Tỉnh/ Thành phố--
-                </option>
-              </select>
-              <p class="invalid-feedback">Vui lòng chọn tỉnh/ thành phố.</p>
-              <select id="district" class="form-select" disabled required>
-                <option selected disabled value="">--Chọn Huyện/ Quận--</option>
-              </select>
-              <p class="invalid-feedback">Vui lòng chọn huyện/ quận.</p>
-              <select id="ward" class="form-select" disabled required>
-                <option selected disabled value="">--Chọn Phường/Xã--</option>
-              </select>
-              <p class="invalid-feedback">Vui lòng chọn phường/ xã.</p>
+            <div class="row">
+              <div class="col-md-4">
+                <select id="province" class="form-select" required>
+                  <option selected disabled value="">
+                    --Chọn Tỉnh/Thành phố--
+                  </option>
+                </select>
+                <div id="province-invalid" class="text-danger"></div>
+              </div>
+
+              <div class="col-md-4">
+                <select id="district" class="form-select" disabled required>
+                  <option selected disabled value="">
+                    --Chọn Huyện/Quận--
+                  </option>
+                </select>
+                <div id="district-invalid" class="text-danger"></div>
+              </div>
+
+              <div class="col-md-4">
+                <select id="ward" class="form-select" disabled required>
+                  <option selected disabled value="">--Chọn Phường/Xã--</option>
+                </select>
+                <div id="ward-invalid" class="text-danger"></div>
+              </div>
             </div>
+
             <input
               type="text"
               placeholder="Số nhà"
               class="form-control mt-2 w-100"
               id="houseNum"
             />
+
             <label>Lời nhắn</label>
             <textarea
-              name=""
               id="message"
               rows="5"
               class="form-control w-100"
+              placeholder="Nhập lời nhắn của bạn..."
             ></textarea>
           </div>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -201,6 +227,7 @@
             >
               Huỷ
             </button>
+
             <button type="submit" class="btn btn-primary confirm-btn">
               Xác nhận
             </button>
@@ -209,10 +236,14 @@
       </div>
     </div>
 
+    <div id="toast-container"></div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+
+    <script type="module" src="../scripts/cart.js"></script>
   </body>
 </html>
