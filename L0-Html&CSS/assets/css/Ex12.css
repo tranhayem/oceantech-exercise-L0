@@ -52,3 +52,57 @@ body {
 .btn-info:hover {
   background-color: #138496;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .form-title h2 {
+    font-size: 1.5rem;
+  }
+
+  .list-unstyled li {
+    font-size: 0.875rem;
+  }
+
+  .list-unstyled i {
+    font-size: 1rem;
+  }
+
+  .form-control {
+    font-size: 0.875rem;
+    padding: 8px;
+  }
+
+  .btn-info {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .container {
+    padding: 25px;
+  }
+
+  .form-title h2 {
+    font-size: 2rem;
+  }
+
+  .list-unstyled li {
+    font-size: 0.95rem;
+  }
+
+  .list-unstyled i {
+    font-size: 1.1rem;
+  }
+
+  .form-control {
+    font-size: 0.95rem;
+    padding: 9px;
+  }
+
+  .btn-info {
+    font-size: 0.95rem;
+  }
+}
