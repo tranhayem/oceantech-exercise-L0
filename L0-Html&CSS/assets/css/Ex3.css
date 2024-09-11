@@ -44,7 +44,7 @@ body {
 .invite-section .form-control {
   border-radius: 5px;
   padding: 15px;
-  min-width: 200px;
+  max-width: 400px;
 }
 
 .invite-section .btn-primary {
@@ -53,7 +53,7 @@ body {
   border-radius: 5px;
   padding: 10px 0;
   font-size: 1rem;
-  width: 50%;
+  width: 40%;
   min-width: 120px;
 }
 
