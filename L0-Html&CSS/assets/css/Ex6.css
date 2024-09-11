@@ -31,3 +31,33 @@ body {
   font-weight: 600;
   margin-bottom: 1rem;
 }
+
+@media (max-width: 768px) {
+  .service-icon {
+    font-size: 1.5rem;
+    padding: 8px;
+  }
+
+  .service-box h4 {
+    font-size: 1rem;
+  }
+
+  .service-box p {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .service-icon {
+    font-size: 1.75rem;
+    padding: 10px;
+  }
+
+  .service-box h4 {
+    font-size: 1.125rem;
+  }
+
+  .service-box p {
+    font-size: 1rem;
+  }
+}
