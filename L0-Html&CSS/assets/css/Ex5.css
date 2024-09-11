@@ -29,3 +29,13 @@ body {
 .fa-check {
   color: #c2d82e;
 }
+
+@media (max-width: 768px) {
+  .features-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .features-section .text-muted {
+    font-size: 1rem;
+  }
+}
