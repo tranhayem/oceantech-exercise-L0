@@ -38,4 +38,30 @@ body {
   .features-section .text-muted {
     font-size: 1rem;
   }
+
+  .fa-check {
+    font-size: 1.5rem;
+  }
+
+  .features-section .col-lg-4 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .features-section h2 {
+    font-size: 2rem;
+  }
+
+  .features-section .text-muted {
+    font-size: 1.2rem;
+  }
+
+  .fa-check {
+    font-size: 2rem;
+  }
+
+  .features-section .col-lg-4 {
+    font-size: 1rem;
+  }
 }
