@@ -6,23 +6,92 @@ import {
 import { addOrder } from "./orderApi.js";
 import { Utils } from "./utils.js";
 
-// Cart functionality
-const getCartItems = () => {
-  return Utils.getFromLocalStorage(keyLocalStorageItemCart);
+// Form elements
+const buyButton = document.querySelector(".buy-btn");
+const formModal = document.querySelector("#buyModal form");
+
+const form = document.querySelector("#orderForm");
+const lastName = document.getElementById("lastName");
+const firstName = document.getElementById("firstName");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const houseNum = document.getElementById("houseNum");
+const message = document.getElementById("message");
+
+const lastNameInvalid = document.getElementById("lastName-invalid");
+const firstNameInvalid = document.getElementById("firstName-invalid");
+const emailInvalid = document.getElementById("email-invalid");
+const phoneInvalid = document.getElementById("phone-invalid");
+const provinceInvalid = document.getElementById("province-invalid");
+const districtInvalid = document.getElementById("district-invalid");
+const wardInvalid = document.getElementById("ward-invalid");
+
+const provinceSelect = document.getElementById("province");
+const districtSelect = document.getElementById("district");
+const wardSelect = document.getElementById("ward");
+
+const confirmButton = document.querySelector(".confirm-btn");
+
+// Utility functions
+const updateElementText = (selector, text) => {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.textContent = text;
+  }
 };
+
+const addEventListeners = (selector, event, handler) => {
+  document.querySelectorAll(selector).forEach((element) => {
+    element.addEventListener(event, handler);
+  });
+};
+
+const updateSelectOptions = (selectElement, options, defaultOptionText) => {
+  selectElement.innerHTML = `<option selected disabled value="">${defaultOptionText}</option>`;
+  options.forEach((optionData) => {
+    const option = document.createElement("option");
+    option.value = optionData.code;
+    option.textContent = optionData.name;
+    selectElement.appendChild(option);
+  });
+  selectElement.disabled = false;
+};
+
+const clearSelectOptions = (selectElement, defaultOptionText) => {
+  selectElement.innerHTML = `<option selected disabled value="">${defaultOptionText}</option>`;
+  selectElement.disabled = true;
+};
+
+// Form utility functions
+const getFormFieldValue = (field) => field.value.trim();
+
+const resetForm = (form, errorElements) => {
+  form.reset();
+  errorElements.forEach((element) => {
+    element.textContent = "";
+  });
+  provinceSelect.selectedIndex = 0;
+  clearSelectOptions(districtSelect, "--Chọn Huyện/Quận--");
+  clearSelectOptions(wardSelect, "--Chọn Phường/Xã--");
+};
+
+const showError = (errorMsgElement, errorMsg) => {
+  errorMsgElement.innerText = errorMsg;
+};
+
+// Cart functionality
+const getCartItems = () => Utils.getFromLocalStorage(keyLocalStorageItemCart);
 
 const updateCartSummary = (cartItems) => {
   const totalsMap = Utils.calculateTotals(cartItems);
-
-  const buyQuantityElement = document.querySelector(".buy-quantity");
-  const totalMoneyElement = document.querySelector(".total-money");
-
-  buyQuantityElement.textContent = `Total Quantity: ${totalsMap.get(
-    "totalQuantity"
-  )}`;
-  totalMoneyElement.textContent = `Total Price: $${totalsMap.get(
-    "totalPrice"
-  )}`;
+  updateElementText(
+    ".buy-quantity",
+    `Total Quantity: ${totalsMap.get("totalQuantity")}`
+  );
+  updateElementText(
+    ".total-money",
+    `Total Price: $${totalsMap.get("totalPrice")}`
+  );
 };
 
 const renderCartItems = () => {
@@ -31,104 +100,76 @@ const renderCartItems = () => {
 
   if (!cartItems || !cartItems.length) {
     document.querySelector(".shopping-cart").style.display = "none";
-
-    const container = document.querySelector(".main-content");
-    container.innerHTML = `
+    document.querySelector(".main-content").innerHTML = `
       <div class="empty-cart text-center mt-5">
         <img src="../assets/images/emptyCart.png" alt="Empty Cart" />
-        
         <div class="text-start">
           <a class="text-decoration-none btn-outline-danger btn-back-to-home" href="./home.html">
-            <i class="fa-solid fa-arrow-left"></i>
-              Back to Shopping
+            <i class="fa-solid fa-arrow-left"></i> Back to Shopping
           </a>
         </div>
-      </div>
-    `;
-
+      </div>`;
     return;
   }
 
   document.querySelector(".shopping-cart").style.display = "block";
-
   cartItemsContainer.innerHTML = cartItems
     .map((item) => {
       const product = Utils.getProductById(item.idSP);
-      const productInStock = product.quantity;
-      const purchaseQuantity = item.soLuong;
-      const isMaxQuantity = purchaseQuantity >= productInStock;
+      const isMaxQuantity = item.soLuong >= product.quantity;
       const subtotal = product.price * item.soLuong;
 
       return `<tr>
-        <td class="align-middle text-start">
-          <img src="${product.imageUrl}"
-            alt="${product.name}" width="60px"
-            class="m-2 bg-body-secondary p-1 object-fit-cover">
-          
-          <div class="d-inline-block align-middle">
-            <div class="fw-bold">${product.name}</div>
-            <div>Quantity: ${productInStock}</div>
-          </div>
-        </td>
-
-        <td>
-          <button class="btn quantity-decrease border-0 fs-5
-            ${purchaseQuantity === 1 ? "invisible" : ""}"
-            data-id="${item.idSP}">
-              -
-          </button>
-
-          <span class="mx-2">${purchaseQuantity}</span>
-
-          <button class="btn quantity-increase border-0 fs-5
-            ${isMaxQuantity ? "invisible" : ""}"
-            data-id="${item.idSP}">
-              +
-          </button>
-        </td>
-
-        <td>$${product.price}</td>
-
-        <td>$${subtotal}</td>
-
-        <td>
-          <button class="btn btn-outline-danger rounded-circle clear-btn"
-            data-id="${item.idSP}">
-              <i class="fas fa-times"></i>
-          </button>
-        </td>
-      </tr>`;
+      <td class="align-middle text-start">
+        <img src="${product.imageUrl}" alt="${
+        product.name
+      }" width="60px" class="m-2 bg-body-secondary p-1 object-fit-cover">
+        <div class="d-inline-block align-middle">
+          <div class="fw-bold">${product.name}</div>
+          <div>Quantity: ${product.quantity}</div>
+        </div>
+      </td>
+      <td>
+        <button class="btn quantity-decrease border-0 fs-5 ${
+          item.soLuong === 1 ? "invisible" : ""
+        }" data-id="${item.idSP}">-</button>
+        <span class="mx-2">${item.soLuong}</span>
+        <button class="btn quantity-increase border-0 fs-5 ${
+          isMaxQuantity ? "invisible" : ""
+        }" data-id="${item.idSP}">+</button>
+      </td>
+      <td>$${product.price}</td>
+      <td>$${subtotal}</td>
+      <td>
+        <button class="btn btn-outline-danger rounded-circle clear-btn" data-id="${
+          item.idSP
+        }">
+          <i class="fas fa-times"></i>
+        </button>
+      </td>
+    </tr>`;
     })
     .join("");
 
-  document.querySelectorAll(".quantity-decrease").forEach((button) => {
-    button.addEventListener("click", () => {
-      updateCartItemQuantity(parseInt(button.dataset.id, 10), -1);
-    });
-  });
+  addEventListeners(".quantity-decrease", "click", (event) =>
+    updateCartItemQuantity(parseInt(event.target.dataset.id, 10), -1)
+  );
 
-  document.querySelectorAll(".quantity-increase").forEach((button) => {
-    button.addEventListener("click", () => {
-      updateCartItemQuantity(parseInt(button.dataset.id, 10), 1);
-    });
-  });
+  addEventListeners(".quantity-increase", "click", (event) =>
+    updateCartItemQuantity(parseInt(event.target.dataset.id, 10), 1)
+  );
 
-  document.querySelectorAll(".clear-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-      const idSP = parseInt(button.dataset.id, 10);
-      const confirmed = confirm(
-        "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?"
+  addEventListeners(".clear-btn", "click", (event) => {
+    const idSP = parseInt(event.target.dataset.id, 10);
+    if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+      Utils.showToast(
+        "Thành công",
+        "Sản phẩm đã được xóa thành công!",
+        "success"
       );
-      if (confirmed) {
-        Utils.showToast(
-          "Thành công",
-          "Sản phẩm đã được xóa thành công!",
-          "success"
-        );
-        clearCartItem(idSP);
-        Utils.updateCartBadge();
-      }
-    });
+      clearCartItem(idSP);
+      Utils.updateCartBadge();
+    }
   });
 
   updateCartSummary(cartItems);
@@ -158,143 +199,56 @@ const clearCartItem = (idSP) => {
   renderCartItems();
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const buyButton = document.querySelector(".buy-btn");
-
-  if (buyButton) {
-    buyButton.addEventListener("click", () => {
-      const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-      buyModal.show();
-    });
-  }
-
-  const form = document.querySelector("#buyModal form");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    alert("Form submitted!");
-    const buyModal = bootstrap.Modal.getInstance(
-      document.getElementById("buyModal")
-    );
-    buyModal.hide();
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  Utils.updateCartBadge();
-  renderCartItems();
-});
-
 // Provinces functionality
-const provinceSelect = document.getElementById("province");
-const districtSelect = document.getElementById("district");
-const wardSelect = document.getElementById("ward");
+const getProvinceData = () => Utils.fetchData(`${provincesURL}/p`);
 
-const getProvinceData = () => {
-  return Utils.fetchData(`${provincesURL}/p`);
-};
-
-const getDistrictsByProvinceID = (provinceId) => {
-  return Utils.fetchData(`${provincesURL}/p/${provinceId}?depth=2`).then(
+const getDistrictsByProvinceID = (provinceId) =>
+  Utils.fetchData(`${provincesURL}/p/${provinceId}?depth=2`).then(
     (data) => data?.districts || []
   );
-};
 
-const getWardsByDistrictsID = (districtId) => {
-  return Utils.fetchData(`${provincesURL}/d/${districtId}?depth=2`).then(
+const getWardsByDistrictsID = (districtId) =>
+  Utils.fetchData(`${provincesURL}/d/${districtId}?depth=2`).then(
     (data) => data?.wards || []
   );
-};
 
 const initProvinces = async () => {
   const provinces = await getProvinceData();
   if (provinces) {
-    provinces.forEach((province) => {
-      const option = document.createElement("option");
-      option.value = province.code;
-      option.textContent = province.name;
-      provinceSelect.appendChild(option);
-    });
+    updateSelectOptions(provinceSelect, provinces, "--Chọn Tỉnh/Thành phố--");
   }
 };
 
 const loadDistricts = async (provinceId) => {
   const districts = await getDistrictsByProvinceID(provinceId);
   if (Array.isArray(districts)) {
-    districtSelect.innerHTML =
-      '<option selected disabled value="">--Chọn Huyện/Quận--</option>';
-    districts.forEach((district) => {
-      const option = document.createElement("option");
-      option.value = district.code;
-      option.textContent = district.name;
-      districtSelect.appendChild(option);
-    });
-    districtSelect.disabled = false;
+    updateSelectOptions(districtSelect, districts, "--Chọn Huyện/Quận--");
   }
+  clearSelectOptions(wardSelect, "--Chọn Phường/Xã--");
 };
 
 const loadWards = async (districtId) => {
   const wards = await getWardsByDistrictsID(districtId);
   if (Array.isArray(wards)) {
-    wardSelect.innerHTML =
-      '<option selected disabled value="">--Chọn Phường/Xã--</option>';
-    wards.forEach((ward) => {
-      const option = document.createElement("option");
-      option.value = ward.code;
-      option.textContent = ward.name;
-      wardSelect.appendChild(option);
-    });
-    wardSelect.disabled = false;
+    updateSelectOptions(wardSelect, wards, "--Chọn Phường/Xã--");
   }
 };
 
-provinceSelect.addEventListener("change", (event) => {
-  const provinceId = event.target.value;
-  loadDistricts(provinceId);
-  wardSelect.disabled = true;
-});
-
-districtSelect.addEventListener("change", (event) => {
-  const districtId = event.target.value;
-  loadWards(districtId);
-});
-
-initProvinces();
-
 // Submit Order functionality
-const form = document.querySelector("#orderForm");
-const buyButton = document.querySelector(".confirm-btn");
-
-const lastName = document.getElementById("lastName");
-const firstName = document.getElementById("firstName");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
-const houseNum = document.getElementById("houseNum");
-const province = document.getElementById("province");
-const district = document.getElementById("district");
-const ward = document.getElementById("ward");
-const message = document.getElementById("message");
-
-const lastNameInvalid = document.getElementById("lastName-invalid");
-const firstNameInvalid = document.getElementById("firstName-invalid");
-const emailInvalid = document.getElementById("email-invalid");
-const phoneInvalid = document.getElementById("phone-invalid");
-const provinceInvalid = document.getElementById("province-invalid");
-const districtInvalid = document.getElementById("district-invalid");
-const wardInvalid = document.getElementById("ward-invalid");
-
 const validateName = (name) => /^[A-Za-zÀ-ÿ\s]+$/.test(name);
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const validatePhone = (phone) => /^\d{9,10}$/.test(phone);
 
 const validateField = (field, validator, errorMsgElement, errorMsg) => {
-  if (!field.value.trim()) {
-    errorMsgElement.innerText = errorMsg.empty;
+  const value = getFormFieldValue(field);
+  if (!value) {
+    showError(errorMsgElement, errorMsg.empty);
     return false;
-  } else if (!validator(field.value)) {
-    errorMsgElement.innerText = errorMsg.invalid;
+  } else if (!validator(value)) {
+    showError(errorMsgElement, errorMsg.invalid);
     return false;
   }
-  errorMsgElement.innerText = "";
+  showError(errorMsgElement, "");
   return true;
 };
 
@@ -377,9 +331,8 @@ const handleSubmit = async (event) => {
   const newOrder = await addOrder(order);
 
   if (newOrder) {
-    Utils.showToast("Success", "Đặt hàng thành công!", "success");
     localStorage.removeItem(keyLocalStorageItemCart);
-    form.reset();
+    resetForm(form, document.querySelectorAll(".text-danger"));
 
     const products = Utils.getFromLocalStorage(keyLocalStorageListSP);
     cartItems.forEach((item) => {
@@ -389,11 +342,49 @@ const handleSubmit = async (event) => {
       }
     });
     Utils.saveToLocalStorage(keyLocalStorageListSP, products);
-
-    window.location.href = "bills.html";
+    alert("Đặt hàng thành công!");
   } else {
     Utils.showToast("Error", "Đã xảy ra lỗi khi đặt hàng.", "error");
   }
 };
 
-buyButton.addEventListener("click", handleSubmit);
+document.addEventListener("DOMContentLoaded", () => {
+  if (buyButton) {
+    buyButton.addEventListener("click", () => {
+      const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+      buyModal.show();
+    });
+  }
+
+  if (formModal && confirmButton) {
+    confirmButton.addEventListener("click", handleSubmit);
+  }
+
+  formModal.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const buyModal = bootstrap.Modal.getInstance(
+      document.getElementById("buyModal")
+    );
+    buyModal.hide();
+  });
+
+  provinceSelect.addEventListener("change", (event) => {
+    const provinceId = event.target.value;
+    loadDistricts(provinceId);
+  });
+
+  districtSelect.addEventListener("change", (event) => {
+    const districtId = event.target.value;
+    loadWards(districtId);
+  });
+
+  document
+    .getElementById("buyModal")
+    .addEventListener("hidden.bs.modal", () => {
+      resetForm(formModal, document.querySelectorAll(".text-danger"));
+    });
+
+  Utils.updateCartBadge();
+  renderCartItems();
+  initProvinces();
+});
