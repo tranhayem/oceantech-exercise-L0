@@ -76,6 +76,15 @@ body {
   width: 100%;
 }
 
+.navbar-nav .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
 .main-content {
   margin-top: calc(var(--navbar-height) + 1.5rem);
 }
@@ -118,15 +127,6 @@ body {
 .cart-items .cart-icon {
   position: relative;
   display: inline-block;
-}
-
-.cart-items .badge {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
 }
 
 #orderForm label {
