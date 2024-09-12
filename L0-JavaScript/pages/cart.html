@@ -115,8 +115,13 @@
       aria-labelledby="buyModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg">
-        <form id="orderForm" class="modal-content needs-validation">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <form
+          id="orderForm"
+          class="modal-content needs-validation"
+          action=""
+          method="post"
+        >
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="buyModalLabel">
               Thông tin người mua
@@ -228,7 +233,7 @@
               Huỷ
             </button>
 
-            <button type="submit" class="btn btn-primary confirm-btn">
+            <button type="button" class="btn btn-primary confirm-btn">
               Xác nhận
             </button>
           </div>
